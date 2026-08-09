@@ -3,7 +3,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC1pYPuddNdZRm7pNWjbJE7LCcyiiBd_Yc',
+  apiKey: 'Axxxxxxxxxxxxxxxxxx_Yc',
   authDomain: 'crwn-clothing-db-19df5.firebaseapp.com',
   projectId: 'crwn-clothing-db-19df5',
   storageBucket: 'crwn-clothing-db-19df5.firebasestorage.app',
