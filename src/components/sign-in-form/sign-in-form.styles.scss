@@ -1,0 +1,29 @@
+.sign-in-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+
+  h2 {
+    margin: 10px 0;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #ffcdd2;
+}
+
+.error-message p {
+  margin: 0;
+  font-size: 14px;
+}
