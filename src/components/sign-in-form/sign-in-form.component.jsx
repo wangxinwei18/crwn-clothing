@@ -1,11 +1,12 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-import { UserContext } from '../../contexts/user.context';
+
 import {
-  signInWithGoogleRedirect,
+  signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
+  // createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils';
 
 import './sign-in-form.styles.scss';
@@ -20,8 +21,6 @@ const SignInForm = () => {
   const [error, setError] = useState('');
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext);
-
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
     setError('');
@@ -30,7 +29,7 @@ const SignInForm = () => {
   const signInWithGoogle = async () => {
     try {
       setError('');
-      await signInWithGoogleRedirect();
+      await signInWithGooglePopup();
     } catch (error) {
       console.error('Google sign-in error:', error);
 
@@ -74,11 +73,7 @@ const SignInForm = () => {
 
     try {
       setError('');
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password,
-      );
-      setCurrentUser(user);
+      await signInAuthUserWithEmailAndPassword(email, password);
 
       resetFormFields();
     } catch (error) {
@@ -140,6 +135,7 @@ const SignInForm = () => {
           onChange={handleChange}
           name="email"
           value={email}
+          autoComplete="email" //
         />
 
         <FormInput
@@ -149,6 +145,7 @@ const SignInForm = () => {
           onChange={handleChange}
           name="password"
           value={password}
+          autoComplete="current-password"
         />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>

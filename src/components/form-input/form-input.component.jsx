@@ -1,11 +1,13 @@
 import './form-input.styles.scss';
 
-const FormInput = ({ label, ...otherProps }) => {
+const FormInput = ({ label,  autoComplete, ...otherProps }) => {
   const hasValue = Boolean(otherProps.value);
 
   return (
     <div className="group">
-      <input className="form-input" {...otherProps} />
+      <input className="form-input"  
+      autoComplete={autoComplete}
+      {...otherProps} />
       {label && (
         <label className={`${hasValue ? 'shrink' : ''} form-input-label`}>
           {label}
