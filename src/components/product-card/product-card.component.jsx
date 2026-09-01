@@ -8,9 +8,13 @@ import Button from '../button/button.component';
 
 const ProductCard = ({ product }) => {
   const { name, price, imageUrl } = product;
-  const { addItemToCart } = useContext(CartContext);
+  const { addItemToCart, setIsCartOpen } = useContext(CartContext);
 
-  const addProductToCart = () => addItemToCart(product);
+  const addProductToCart = (event) => {
+    event.stopPropagation();
+    addItemToCart(product);
+    setIsCartOpen(true);
+  };
 
   return (
     <div className="product-card-container">
