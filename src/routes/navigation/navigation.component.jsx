@@ -66,7 +66,7 @@ const Navigation = () => {
                 signOutUser();
               }}
             >
-              SIGN OUT
+              Sign Out
             </NavLink>
           ) : (
             <NavLink
