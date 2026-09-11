@@ -1,5 +1,5 @@
-import { Fragment, useContext, useEffect, useRef } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Fragment, useCallback, useContext, useEffect, useRef } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
@@ -10,18 +10,25 @@ import { CartContext } from '../../contexts/cart.context';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
-import './navigation.styles.scss';
+import {
+  NavigationContainer,
+  NavLinks,
+  NavLink,
+  LogoContainer,
+} from './navigation.styles';
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
   const { isCartOpen, setIsCartOpen } = useContext(CartContext);
   const navigationRef = useRef(null);
   const location = useLocation();
 
-  const closeCartDropdown = () => setIsCartOpen(false);
+  const closeCartDropdown = useCallback(() => {
+    setIsCartOpen(false);
+  }, [setIsCartOpen]);
 
   useEffect(() => {
     closeCartDropdown();
-  }, [location.pathname]);
+  }, [closeCartDropdown, location.pathname]);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -43,33 +50,37 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <div className="navigation" ref={navigationRef}>
-        <Link className="logo-container" to="/" onClick={closeCartDropdown}>
+      <NavigationContainer ref={navigationRef}>
+        <LogoContainer to="/" onClick={closeCartDropdown}>
           <CrwnLogo className="logo" />
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to="/shop" onClick={closeCartDropdown}>
-            Shop
-          </Link>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink to="/shop" onClick={closeCartDropdown}>
+            SHOP
+          </NavLink>
           {currentUser ? (
-            <span
-              className="nav-link"
+            <NavLink
+              as="span"
               onClick={() => {
                 closeCartDropdown();
                 signOutUser();
               }}
             >
               SIGN OUT
-            </span>
+            </NavLink>
           ) : (
-            <Link className="nav-link" to="/auth" onClick={closeCartDropdown}>
+            <NavLink
+              className="nav-link"
+              to="/auth"
+              onClick={closeCartDropdown}
+            >
               Sign In
-            </Link>
+            </NavLink>
           )}
           <CartIcon />
-        </div>
+        </NavLinks>
         {isCartOpen && <CartDropdown />}
-      </div>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   );
