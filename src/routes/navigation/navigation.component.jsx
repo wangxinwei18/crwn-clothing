@@ -66,7 +66,7 @@ const Navigation = () => {
                 signOutUser();
               }}
             >
-              Sign Out
+              SIGN OUT
             </NavLink>
           ) : (
             <NavLink
@@ -74,7 +74,7 @@ const Navigation = () => {
               to="/auth"
               onClick={closeCartDropdown}
             >
-              Sign In
+              SIGN IN
             </NavLink>
           )}
           <CartIcon />
