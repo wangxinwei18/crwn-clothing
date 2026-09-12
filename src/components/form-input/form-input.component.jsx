@@ -1,19 +1,17 @@
-import './form-input.styles.scss';
+import { FormInputLabel, Input, Group } from './form-input.styles';
 
-const FormInput = ({ label,  autoComplete, ...otherProps }) => {
-  const hasValue = Boolean(otherProps.value);
+const FormInput = ({ label, autoComplete, ...otherProps }) => {
+  // const hasValue = Boolean(otherProps.value);
 
   return (
-    <div className="group">
-      <input className="form-input"  
-      autoComplete={autoComplete}
-      {...otherProps} />
+    <Group>
+      <Input autoComplete={autoComplete} {...otherProps} />
       {label && (
-        <label className={`${hasValue ? 'shrink' : ''} form-input-label`}>
+        <FormInputLabel shrink={otherProps.value.length}>
           {label}
-        </label>
+        </FormInputLabel>
       )}
-    </div>
+    </Group>
   );
 };
 
