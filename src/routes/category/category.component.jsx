@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 
 import ProductCard from '../../components/product-card/product-card.component';
@@ -11,14 +11,8 @@ import './category.styles.scss';
 
 const Category = () => {
   const { category } = useParams();
-  console.log('render/re-rendering category component');
   const categoriesMap = useSelector(selectCategoriesMap);
-  const [products, setProducts] = useState(categoriesMap[category]);
-
-  useEffect(() => {
-    console.log('effect fired from calling setProducts');
-    setProducts(categoriesMap[category]);
-  }, [category, categoriesMap]);
+  const products = categoriesMap[category];
 
   return (
     <Fragment>

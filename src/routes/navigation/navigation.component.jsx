@@ -1,13 +1,14 @@
-import { Fragment, useCallback, useContext, useEffect, useRef } from 'react';
+import { Fragment, useCallback, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 
+import { setIsCartOpen } from '../../store/cart/cart.action';
+import { selectIsCartOpen } from '../../store/cart/cart.selector';
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 
-import { CartContext } from '../../contexts/cart.context';
 import { selectCurrentUser } from '../../store/user/user.selector';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
@@ -19,15 +20,15 @@ import {
   LogoContainer,
 } from './navigation.styles';
 const Navigation = () => {
+  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
-  // const { currentUser } = useContext(UserContext);
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+  const isCartOpen = useSelector(selectIsCartOpen);
   const navigationRef = useRef(null);
   const location = useLocation();
 
   const closeCartDropdown = useCallback(() => {
-    setIsCartOpen(false);
-  }, [setIsCartOpen]);
+    dispatch(setIsCartOpen(false));
+  }, [dispatch]);
 
   useEffect(() => {
     closeCartDropdown();
@@ -40,7 +41,7 @@ const Navigation = () => {
         navigationRef.current &&
         !navigationRef.current.contains(event.target)
       ) {
-        setIsCartOpen(false);
+        dispatch(setIsCartOpen(false));
       }
     };
 
@@ -49,7 +50,7 @@ const Navigation = () => {
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [isCartOpen, setIsCartOpen]);
+  }, [dispatch, isCartOpen]);
 
   return (
     <Fragment>

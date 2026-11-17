@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import './index.scss';
 import App from './App';
 
-import { CartProvider } from './contexts/cart.context';
 import { store } from './store/store';
 
 import reportWebVitals from './reportWebVitals';
@@ -21,9 +20,7 @@ root.render(
           v7_relativeSplatPath: true,
         }}
       >
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <App />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
