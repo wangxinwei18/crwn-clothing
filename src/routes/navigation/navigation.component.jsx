@@ -20,6 +20,7 @@ import {
   LogoContainer,
 } from './navigation.styles';
 const Navigation = () => {
+  console.log('Navigation component rendering');
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
