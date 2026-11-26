@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 import {
-  signInWithGooglePopup,
-  signInAuthUserWithEmailAndPassword,
-  // createUserDocumentFromAuth,
-} from '../../utils/firebase/firebase.utils';
+  googleSignInStart,
+  emailSignInStart,
+} from '../../store/user/user.action';
 
 import './sign-in-form.styles.scss';
 
@@ -17,6 +17,7 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [error, setError] = useState('');
   const { email, password } = formFields;
@@ -27,90 +28,17 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    try {
-      setError('');
-      await signInWithGooglePopup();
-    } catch (error) {
-      console.error('Google sign-in error:', error);
-
-      // Handle different types of Google sign-in errors
-      let errorMessage = 'An error occurred during Google sign-in.';
-
-      switch (error.code) {
-        case 'auth/popup-blocked':
-          errorMessage =
-            'Pop-up blocker prevented sign-in. Please allow pop-ups for this site.';
-          break;
-        case 'auth/popup-closed-by-user':
-          errorMessage = 'Sign-in window was closed before completion.';
-          break;
-        case 'auth/unauthorized-domain':
-          errorMessage = 'This domain is not authorized for OAuth operations.';
-          break;
-        case 'auth/network-request-failed':
-          errorMessage =
-            'Network error. Please check your internet connection.';
-          break;
-        case 'auth/operation-not-allowed':
-          errorMessage = 'Google sign-in is not enabled in Firebase console.';
-          break;
-        case 'auth/user-cancelled':
-          errorMessage = 'Sign-in was cancelled.';
-          break;
-        default:
-          if (error.message?.includes('popup')) {
-            errorMessage =
-              'Pop-up blocker prevented sign-in. Please allow pop-ups for this site.';
-          }
-      }
-
-      setError(errorMessage);
-    }
+    dispatch(googleSignInStart());
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      setError('');
-      await signInAuthUserWithEmailAndPassword(email, password);
-
+      dispatch(emailSignInStart(email, password));
       resetFormFields();
     } catch (error) {
       console.error('Email/password sign-in error:', error);
-
-      // Handle different types of authentication errors
-      let errorMessage = 'An error occurred during sign-in.';
-
-      switch (error.code) {
-        case 'auth/invalid-credential':
-          errorMessage = 'Incorrect email or password.';
-          break;
-        case 'auth/user-not-found':
-          errorMessage = 'No user found with this email address.';
-          break;
-        case 'auth/wrong-password':
-          errorMessage = 'Incorrect password. Please try again.';
-          break;
-        case 'auth/network-request-failed':
-          errorMessage =
-            'Network error. Please check your internet connection.';
-          break;
-        case 'auth/too-many-requests':
-          errorMessage = 'Too many failed attempts. Please try again later.';
-          break;
-        case 'auth/operation-not-allowed':
-          errorMessage =
-            'Email/password sign-in is not enabled in Firebase console.';
-          break;
-        default:
-          if (error.message?.includes('network')) {
-            errorMessage =
-              'Network error. Please check your internet connection.';
-          }
-      }
-
-      setError(errorMessage);
     }
   };
   const handleChange = (event) => {

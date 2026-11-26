@@ -13,7 +13,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <PersistGate loading={<div>正在加载...</div>} persistor={persistor}>
+    <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
       <BrowserRouter
         future={{
           v7_startTransition: true,
