@@ -11,7 +11,7 @@ import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 
 import { selectCurrentUser } from '../../store/user/user.selector';
 
-import { signOutUser } from '../../utils/firebase/firebase.utils';
+import { signOutStart } from '../../store/user/user.action';
 
 import {
   NavigationContainer,
@@ -20,12 +20,13 @@ import {
   LogoContainer,
 } from './navigation.styles';
 const Navigation = () => {
-  console.log('Navigation component rendering');
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
   const navigationRef = useRef(null);
   const location = useLocation();
+
+  const signOutUser = () => dispatch(signOutStart());
 
   const closeCartDropdown = useCallback(() => {
     dispatch(setIsCartOpen(false));
